@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Online Auction Management System Using HTML, CSS & JavaScript</title>
+
+    <!--ICONSCOUT CDN-->
+    <link rel="stylesheet" href="https://unicons.iconscout.com/release/v2.1.6/css/unicons.css">
+
+
+    <!--GOOGLE FONTS (MONTSERRAT)-->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wgt@300:400:500:600:700:800:900&display=swap" rel="stylesheet">
+
+
+    <!--SWIPER JS-->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css"/>
+
+
+
+    <link rel="stylesheet" href="./CSS/style.css">
+    <link rel="stylesheet" href="./CSS/registration.css">
+</head>
+<body>
+    <nav>
+        <div class="container nav__container">
+            <a href="index.html"><h4>Bidder</h4></a>
+            <ul class="nav__menu">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="login.html">Login</a></li>
+                <li><a href="registration.html">Registration</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="property.html">Property</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+            <button id="open-menu-btn"><i class="uil uil-bars"></i></button>
+            <button id="close-menu-btn"><i class="uil uil-multiply"></i></button>
+
+        </div>
+    </nav>
+    <!--==================================END OF NAVBAR===========================================-->
+
+    <form id="userForm" action="#" onsubmit="return validation()">
+    
+        <div class = "container">
+        <div class="formControl">
+            <h1>User Registeration Form</h1>
+             <P>Please fill in the form to create an Bidder Account</p><hr>
+        </div>        
+		<div class="formControl">
+			<label for="name"> First Name:</label>
+			<input type="text" id="name" name="first_name" placeholder="Enter First_name">
+		</div>
+			<div class="msg" id="u_name"></div>
+
+
+         <div class="formControl">
+            <label for="name">Last Name:</label>
+            <input type="text" id="lname" name="last_name" placeholder="Enter Last_name">
+        </div>
+            <div class="msg" id="l_name"></div>
+
+        <div class="formControl">
+            <label for="email"> Email:</label>
+            <input type="text" id="email" name="email" placeholder="Enter Email">
+        </div>
+           <div class="msg" id="u_email"></div>
+
+
+		<div class="formControl">
+			<label for="username">Username:</label>
+			<input type="text" id="username" name="username" placeholder="Enter Username">
+		</div>
+			<div class="msg" id="u_username"></div>
+
+
+		<div class="formControl">
+			<label for="password">Password:</label>
+			<input type="password" id="password" name="password" placeholder="Enter Password">
+		</div>
+			<div class="msg" id="u_password"></div>
+
+
+		<div class="formControl">
+			<label for="Confirm Password">Confirm Password:</label>
+			<input type="password" id="conpassword" name=" confirm_password" placeholder="Enter Confirm Password"><hr>
+		</div>
+			<div class="msg" id="c_password"></div>
+
+
+        <div class="formControl">
+            <label for="Aadhaar Number">Aadhaar Number:</label>
+                <input type="text" id="aadhaar" name=" addhaar" placeholder="Enter Aadhaar Number"><hr>
+            </div>
+                <div class="msg" id="c_aadhaar"></div>
+
+        <div class="formControl">
+            <label for="Image">Image:</label>
+            <input type="file" id="image" name=" image" ><hr>
+        </div>
+            <div class="msg" id="c_image"></div>    
+
+        <div class="formControl">
+        <p>By creating an account you agree to our <a href="#">Terms & Conditions</a></p>
+        </div>
+     
+
+		<div class="btn">
+			<button type="submit">Register</button>
+		</div>
+    </div>
+	</form>
+
+
+<script>
+	function validation(){
+		var name = document.getElementById("name").value;
+		var username = document.getElementById("username").value;
+		var email = document.getElementById("email").value;
+		var mobile = document.getElementById("mobile").value;
+		
+		if (name == ""){
+			document.getElementById('u_name').innerHTML = "* First Name can't be blank";
+			return false;
+		}
+		
+		if (name.length < 5){
+			document.getElementById('u_name').innerHTML = "* First Name Lenght should be greater than 5";
+			return false;
+		}
+		
+		if (!isNaN(name)){
+			document.getElementById('u_name').innerHTML = "* First Name should be character only";
+			return false;
+		}
+        //Last Name
+        if (lname == ""){
+			document.getElementById('l_name').innerHTML = "* Last Name can't be blank";
+			return false;
+		}
+        if (!isNaN(lname)){
+			document.getElementById('l_name').innerHTML = "* Last Name should be character only";
+			return false;
+		}
+
+
+        // Email Validation
+		if(email.indexOf('@') <=0){
+			document.getElementById("u_email").innerHTML = "* Email must contain @";
+			return false;
+		}
+		if((email.charAt(email.length - 4)!= '.') && (email.charAt(email.length - 3)!= '.')){
+			document.getElementById("u_email").innerHTML = "* Email must contain .";
+			return false;
+		}
+
+		// Username
+		if (username == ""){
+			document.getElementById("u_username").innerHTML = "* Username can't be blank";
+			return false;
+		} 
+
+		//Password
+        if(password ==""){
+            document.getElementById("u_password").innerHTML ="* Password can't be blank";
+            return false;
+        }
+        if(password.length <= 6){
+            document.getElementById("u_password").innerHTML="* Weak Password make it Strong"
+            return false;
+        }
+
+        //Confirm Password
+        if(conpassword ==""){
+            document.getElementById("c_password").innerHTML ="* Password can't be blank";
+            return false;
+        }
+        if(conpassword.length <= 6){
+            document.getElementById("c_password").innerHTML="* Weak Password make it Strong"
+            return false;
+        }
+        if(conpassword != password){
+            document.getElementById("c_password").innerHTML="* Password does not match"
+            return false;
+        }        
+	}
+</script>
+
+<script src="./main.js"></script>
+</body>
+</html>

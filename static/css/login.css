@@ -1,0 +1,54 @@
+h1 {
+    color: red;
+	text-align: center;
+    padding: 6rem;
+}
+  
+  /* Center the login form horizontally */
+  .login-form {
+    margin: 0 auto;
+    width: 90%;
+    max-width: 400px;
+  }
+  
+  /* Style the form input fields */
+  .login-form input[type=text], 
+  .login-form input[type=password] {
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+  }
+  
+  /* Style the login button */
+  .login-form input[type=submit] {
+    background-color: #4CAF50;
+    color: white;
+    padding: 14px 20px;
+    margin: 8px 0;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    width: 100%;
+  }
+  
+  /* Style the "Sign up" link */
+  .login-form p {
+    text-align: center;
+    font-size: 14px;
+  }
+  
+  .login-form p a {
+    color: #4CAF50;
+    text-decoration: none;
+  }
+  
+  /* Media queries for tablet and mobile devices */
+  @media screen and (max-width: 768px) {
+    .login-form {
+      width: 100%;
+    }
+  }
