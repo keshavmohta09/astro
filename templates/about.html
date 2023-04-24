@@ -1,28 +1,29 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bidder - about</title>
-
-    <!--ICONSCOUT CDN-->
-    <link rel="stylesheet" href="https://unicons.iconscout.com/release/v2.1.6/css/unicons.css">
-
-
-    <!--GOOGLE FONTS (MONTSERRAT)-->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wgt@300:400:500:600:700:800:900&display=swap" rel="stylesheet">
-
-
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Bidder - About</title>
     
-
-
-    <link rel="stylesheet" href="{% static 'css/style.css' %}">
-    <link rel="stylesheet" href="{% static 'css/about.css' %}">
-</head>
+        <!--ICONSCOUT CDN-->
+        <link rel="stylesheet" href="https://unicons.iconscout.com/release/v2.1.6/css/unicons.css">
+    
+    
+        <!--GOOGLE FONTS (MONTSERRAT)-->
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Montserrat:wgt@300:400:500:600:700:800:900&display=swap" rel="stylesheet">
+    
+    
+        <!--SWIPER JS-->
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css"/>
+    
+    
+    
+        <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    </head>
 <body>
     <nav>
         <div class="container nav__container">
@@ -30,7 +31,7 @@
             <ul class="nav__menu">
                 <li><a href="/">Home</a></li>
                 <li><a href="{% url 'user-login' %}">Login</a></li>
-                <li><a href="registration.html">Registration</a></li>
+                <li><a href="{% url 'user-create' %}">Registration</a></li>
                 <li><a href="{% url 'about' %}">About</a></li>
                 <li><a href="property.html">Property</a></li>
                 <li><a href="{% url 'contact' %}">Contact</a></li>
@@ -162,7 +163,7 @@
                     <ul class="permalinks">
                         <li><a href="{% url 'home' %}">Home</a></li>
                         <li><a href="{% url 'user-login' %}">Login</a></li>
-                        <li><a href="registration.html">Registration</a></li>
+                        <li><a href="{% url 'user-create' %}">Registration</a></li>
                         <li><a href="{% url 'about' %}">About</a></li>
                         <li><a href="property.html">Property</a></li>
                         <li><a href="{% url 'contact' %}">Contact</a></li>
@@ -213,7 +214,7 @@
         </footer>
          
 
-             <script src="main.js"></script>
+        <script src="{% static 'js/main.js' %}"></script>
         
     </body>
     </html>

@@ -41,19 +41,23 @@ class UserAPI(ViewSet):
             fields = ("email", "first_name", "last_name", "message")
 
     def create(self, request, *args, **kwargs):
-        data = request.data
+        if request.method == "GET":
+            return render(request, "registration.html")
+        data = request.POST
         serializer = self.InputSerializer(data=data)
         if not serializer.is_valid():
-            return Response(serializer.errors, status=400)
+            messages.error(request, str(serializer.errors))
+            return render(request, "registration.html")
 
         validated_data = serializer.validated_data
         validated_data.pop("confirm_password")
         try:
             user = User.objects.create_user(**validated_data)
         except (ValidationError, IntegrityError) as error:
-            return Response(str(error), status=400)
-        user.message = "Congratulations, You are registered."
-        return Response(self.OutputSerializer(instance=user).data, status=201)
+            messages.error(str(error))
+            return render(request, "registration.html")
+        messages.info(request, f"Congratulations {user.full_name}, You are registered.")
+        return render(request, "home.html")
 
     def update(self, request, *args, **kwargs):
         data = request.data
@@ -80,7 +84,9 @@ class UserAPI(ViewSet):
         return Response(self.OutputSerializer(instance=user).data, status=201)
 
 
-from django.shortcuts import render
+from django.contrib import messages
+from django.contrib.auth import authenticate, login
+from django.shortcuts import redirect, render
 
 
 class UserAuthenticationAPI(ViewSet):
@@ -96,26 +102,22 @@ class UserAuthenticationAPI(ViewSet):
     def login(self, request, *args, **kwargs):
         if request.method == "GET":
             return render(request, "login.html")
-        data = request.POST.data
+        data = request.POST
         serializer = self.InputSerializer(data=data)
         if not serializer.is_valid():
-            return Response(serializer.errors, status=400)
+            messages.error(request, serializer.errors)
+            return redirect("user-login")
 
         validated_data = serializer.validated_data
         email = validated_data["email"]
         password = validated_data["password"]
-        try:
-            user = User.objects.get(email=email)
-            if not user.check_password(password):
-                raise User.DoesNotExist
-        except User.DoesNotExist:
-            return Response("User not found. Please register yourself before login.")
-        token, _created = Token.objects.get_or_create(user=user)
-        response = {
-            "token": token.key,
-            "payload": self.OutputSerializer(instance=user).data,
-        }
-        return Response(response, status=200)
+        user = authenticate(request, email=email, password=password)
+        if user is not None:
+            token, created = Token.objects.get_or_create(user=user)
+            login(request, user)
+            return render(request, "index.html", {"token": token.key})
+        messages.error(request, "Invalid email or password")
+        return render(request, "login.html")
 
     @permission_classes(IsAuthenticated)
     def logout(self, request, *args, **kwargs):

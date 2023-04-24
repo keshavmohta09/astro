@@ -4,8 +4,8 @@ from rest_framework.authtoken import views as auth_views
 from users import views
 
 urlpatterns = [
-    path("create/", views.UserAPI.as_view({"post": "create"}), name="user-create"),
-    path("update/", views.UserAPI.as_view({"put": "update"}), name="user-update"),
+    path("create/", views.UserAPI().create, name="user-create"),
+    # path("update/", views.UserAPI.as_view({"put": "update"}), name="user-update"),
     path(
         "login/",
         views.UserAuthenticationAPI().login,

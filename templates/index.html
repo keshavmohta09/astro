@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Online Auction Management System Using HTML, CSS & JavaScript</title>
+    <title>Bidder - Home</title>
 
     <!--ICONSCOUT CDN-->
     <link rel="stylesheet" href="https://unicons.iconscout.com/release/v2.1.6/css/unicons.css">
@@ -31,7 +31,7 @@
             <ul class="nav__menu">
                 <li><a href="/">Home</a></li>
                 <li><a href="{% url 'user-login' %}">Login</a></li>
-                <li><a href="registration.html">Registration</a></li>
+                <li><a href="{% url 'user-create' %}">Registration</a></li>
                 <li><a href="{% url 'about' %}">About</a></li>
                 <li><a href="property.html">Property</a></li>
                 <li><a href="{% url 'contact' %}">Contact</a></li>
@@ -212,7 +212,7 @@
             <ul class="permalinks">
                 <li><a href="{% url 'home' %}">Home</a></li>
                 <li><a href="{% url 'user-login' %}">Login</a></li>
-                <li><a href="registration.html">Registration</a></li>
+                <li><a href="{% url 'user-create' %}">Registration</a></li>
                 <li><a href="{% url 'about' %}">About</a></li>
                 <li><a href="property.html">Property</a></li>
                 <li><a href="{% url 'contact' %}">Contact</a></li>
@@ -265,7 +265,7 @@
 
 
 <script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>
-<script src="main.js"></script>
+<script src="{% static 'js/main.js' %}"></script>
 
 
 <script>
