@@ -1,3 +1,4 @@
+from django.contrib import messages
 from django.core.exceptions import ValidationError
 from django.shortcuts import render
 
@@ -20,7 +21,7 @@ class CreateBidAPI(APIView):
         property = serializers.IntegerField()
         amount = serializers.IntegerField()
 
-    def get(self, request):
+    def create(self, request):
         serializer = self.InputSerializer(data=request.data)
         if not serializer.is_valid():
             return Response(data=serializer.errors, status=400)
@@ -40,10 +41,10 @@ class CreateBidAPI(APIView):
             property.auction_set.filter(is_active=True).order_by("-amount").first()
         )
         if max_bid and validated_data["amount"] <= max_bid.amount:
-            return Response(
-                data=f"Maximum bid is {max_bid.amount}, enter the greater amount...",
-                status=400,
+            messages.error(
+                f"Maximum bid is {max_bid.amount}, enter the greater amount..."
             )
+            return render(request, "property.html")
 
         bid = Auction(
             property=property, buyer=request.user, amount=validated_data["amount"]
@@ -51,9 +52,7 @@ class CreateBidAPI(APIView):
         try:
             bid.save()
         except ValidationError as error:
-            return Response(data=error, status=400)
+            messages.error(str(error))
+            return render(request, "property.html")
 
-        return Response(
-            data=AuctionSerializer(instance=bid).data,
-            status=201,
-        )
+        return render(request, "property.html")

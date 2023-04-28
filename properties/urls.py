@@ -5,7 +5,7 @@ from properties.views import ListRunningAuctionsAPI
 urlpatterns = [
     path(
         "running-auctions/",
-        ListRunningAuctionsAPI.get,
+        ListRunningAuctionsAPI().get,
         name="list_running_auctions",
     ),
 ]
