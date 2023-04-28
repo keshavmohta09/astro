@@ -2,143 +2,146 @@
 
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Bidder - Login</title>
-    
-        <!--ICONSCOUT CDN-->
-        <link rel="stylesheet" href="https://unicons.iconscout.com/release/v2.1.6/css/unicons.css">
-    
-    
-        <!--GOOGLE FONTS (MONTSERRAT)-->
-        <link rel="preconnect" href="https://fonts.googleapis.com">
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=Montserrat:wgt@300:400:500:600:700:800:900&display=swap" rel="stylesheet">
-    
-    
-        <!--SWIPER JS-->
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css"/>
-    
-    
-    
-        <link rel="stylesheet" href="{% static 'css/style.css' %}">
-    </head>
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bidder - Login</title>
+
+  <!--ICONSCOUT CDN-->
+  <link rel="stylesheet" href="https://unicons.iconscout.com/release/v2.1.6/css/unicons.css">
+
+
+  <!--GOOGLE FONTS (MONTSERRAT)-->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wgt@300:400:500:600:700:800:900&display=swap"
+    rel="stylesheet">
+
+
+  <!--SWIPER JS-->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css" />
+
+  <link rel="stylesheet" href="{% static 'css/style.css' %}">
+  <link rel="stylesheet" href="{% static 'css/login.css' %}">
+</head>
+
 <body>
-    <nav>
-        <div class="container nav__container">
-            <a href="/"><h4>Bidder</h4></a>
-            <ul class="nav__menu">
-                <li><a href="/">Home</a></li>
-                <li><a href="{% url 'user-login' %}">Login</a></li>
-                <li><a href="{% url 'user-create' %}">Registration</a></li>
-                <li><a href="{% url 'about' %}">About</a></li>
-                <li><a href="property.html">Property</a></li>
-                <li><a href="{% url 'contact' %}">Contact</a></li>
-            </ul>
-            <button id="open-menu-btn"><i class="uil uil-bars"></i></button>
-            <button id="close-menu-btn"><i class="uil uil-multiply"></i></button>
+  <nav>
+    <div class="container nav__container">
+      <a href="/">
+        <h4>Bidder</h4>
+      </a>
+      <ul class="nav__menu">
+        <li><a href="/">Home</a></li>
+        <li><a href="{% url 'user-login' %}">Login</a></li>
+        <li><a href="{% url 'user-create' %}">Registration</a></li>
+        <li><a href="{% url 'about' %}">About</a></li>
+        <li><a href="property.html">Property</a></li>
+        <li><a href="{% url 'contact' %}">Contact</a></li>
+      </ul>
+      <button id="open-menu-btn"><i class="uil uil-bars"></i></button>
+      <button id="close-menu-btn"><i class="uil uil-multiply"></i></button>
 
-        </div>
-    </nav>
-    <!--==================================END OF NAVBAR===========================================-->
-    <div class="login-form">
-      <h1>Login</h1>
-      <form method="POST" action="{% url 'user-login' %}">
-        {% csrf_token %}
-        <label for="email">Email:</label><br><br>
-        <input type="email" id="email" name="email", placeholder="care@bidder.com"><br><br>
-        <label for="password">Password:</label>
-        <input type="password" id="password" name="password", placeholder="password"><br><br>
-        <input type="submit" value="Log In">
-      </form>
-      
-      <p>Don't have an account? <a href="{% url 'user-create' %}">Sign up</a></p>
     </div>
+  </nav>
+  <!--==================================END OF NAVBAR===========================================-->
+  <div class="login-form">
+    <h1>Login</h1>
+    <form method="POST" action="{% url 'user-login' %}">
+      {% csrf_token %}
+      <label for="email">Email:</label><br><br>
+      <input type="text" id="email" name="email" , placeholder="care@bidder.com"><br><br>
+      <label for="password">Password:</label>
+      <input type="password" id="password" name="password" , placeholder="password"><br><br>
+      <input type="submit" value="Log In">
+    </form>
+
+    <p>Don't have an account? <a href="{% url 'user-create' %}">Sign up</a></p>
+  </div>
 
 
 
 
 
-    <!-- Add the pop-up message box -->
-<div class="error-popup">
+  <!-- Add the pop-up message box -->
+  <div class="error-popup">
     <div class="error-message" id="error-message"></div>
     <button class="close-btn" id="close-btn">Close</button>
-</div>
-  
+  </div>
+
   <!-- Add the CSS styles for the pop-up -->
   <style>
-  /* Style the pop-up */
-  .error-popup {
-    display: none;
-    position: fixed;
-    z-index: 1;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    overflow: auto;
-  }
-  
-  /* Style the error message */
-  .error-message {
-    background-color: rgb(240, 237, 237);
-    color: #f44336;
-    margin: 15% auto;
-    padding: 20px;
-    border-radius: 5px;
-    width: 50%;
-    text-align: center;
-  }
-  
-  /* Style the close button */
-  .close-btn {
-    padding: 10px;
-    background-color: #f44336;
-    color: white;
-    border: none;
-    margin-top: 10px;
-    border-radius: 10px;
-  }
+    /* Style the pop-up */
+    .error-popup {
+      display: none;
+      position: fixed;
+      z-index: 1;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+    }
+
+    /* Style the error message */
+    .error-message {
+      background-color: rgb(240, 237, 237);
+      color: #f44336;
+      margin: 15% auto;
+      padding: 20px;
+      border-radius: 5px;
+      width: 50%;
+      text-align: center;
+    }
+
+    /* Style the close button */
+    .close-btn {
+      padding: 10px;
+      background-color: #f44336;
+      color: white;
+      border: none;
+      margin-top: 10px;
+      border-radius: 10px;
+    }
   </style>
-  
+
   <!-- Add the JavaScript code to display the pop-up -->
   <script>
-  // Get the pop-up elements
-  const errorPopup = document.querySelector(".error-popup");
-  const errorMessage = document.getElementById("error-message");
-  const closeBtn = document.getElementById("close-btn");
-  
-  // Add an event listener to the close button to hide the pop-up
-  closeBtn.addEventListener("click", () => {
-    errorPopup.style.display = "none";
-  });
-  
-  // Get the error message from Django messages and display it in the pop-up
-  const error = "{% if messages %}{% for message in messages %}{{ message }}{% endfor %}{% endif %}";
-  if (error !== "") {
-    errorMessage.innerHTML = error;
-    errorPopup.style.display = "block";
-  }
-  </script>
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
+    // Get the pop-up elements
+    const errorPopup = document.querySelector(".error-popup");
+    const errorMessage = document.getElementById("error-message");
+    const closeBtn = document.getElementById("close-btn");
 
-    
-    
-    
-<script src="{% static 'js/main.js' %}"></script>
+    // Add an event listener to the close button to hide the pop-up
+    closeBtn.addEventListener("click", () => {
+      errorPopup.style.display = "none";
+    });
+
+    // Get the error message from Django messages and display it in the pop-up
+    const error = "{% if messages %}{% for message in messages %}{{ message }}{% endfor %}{% endif %}";
+    if (error !== "") {
+      errorMessage.innerHTML = error;
+      errorPopup.style.display = "block";
+    }
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <script src="{% static 'js/main.js' %}"></script>
 </body>
 
 
 </html>
-    

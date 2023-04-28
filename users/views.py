@@ -1,6 +1,7 @@
 from django.contrib import messages
 from django.contrib.auth.password_validation import validate_password
 from django.core.exceptions import ValidationError
+from django.core.validators import FileExtensionValidator
 from django.db import IntegrityError
 from rest_framework import serializers
 from rest_framework.authtoken.models import Token
@@ -9,7 +10,8 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.viewsets import ViewSet
 
-from users.models import User
+from helpers.files import ValidateFileSize
+from users.models import Profile, User
 from users.serializers import UserSerializer
 
 
@@ -20,6 +22,9 @@ class UserAPI(ViewSet):
         last_name = serializers.CharField(required=False)
         password = serializers.CharField()
         confirm_password = serializers.CharField()
+        aadhaar = serializers.CharField(max_length=12)
+        pan_card = serializers.CharField(max_length=10)
+        address = serializers.CharField()
 
         def validate(self, attrs):
             if bool(attrs.get("password")) ^ bool(attrs.get("confirm_password")):
@@ -32,7 +37,17 @@ class UserAPI(ViewSet):
                     "Password and confirm password do not match."
                 )
             validate_password(attrs["password"])
+            if not attrs["aadhaar"].isdigit():
+                raise serializers.ValidationError("Provide valid aadhaar number.")
             return attrs
+
+    class FileInputSerializer(serializers.Serializer):
+        image = serializers.ImageField(
+            validators=[
+                ValidateFileSize(max_file_size=Profile.MAX_FILE_SIZE_ALLOWED),
+                FileExtensionValidator(allowed_extensions=Profile.EXTENSIONS_ALLOWED),
+            ]
+        )
 
     class OutputSerializer(UserSerializer):
         message = serializers.CharField()
@@ -49,16 +64,36 @@ class UserAPI(ViewSet):
         if not serializer.is_valid():
             messages.error(request, str(serializer.errors))
             return render(request, "registration.html")
-
         validated_data = serializer.validated_data
+
+        image = request.FILES
+        image_serializer = self.FileInputSerializer(data=image)
+        if not image_serializer.is_valid():
+            messages.error(request, str(image_serializer.errors))
+            return render(request, "registration.html")
+        image_data = image_serializer.validated_data
+
         validated_data.pop("confirm_password")
         try:
-            user = User.objects.create_user(**validated_data)
+            user = User.objects.create_user(
+                email=validated_data["email"],
+                first_name=validated_data["first_name"],
+                last_name=validated_data["last_name"],
+                password=validated_data["password"],
+                is_buyer=True,
+            )
+            _profile = Profile.objects.create(
+                user=user,
+                photo=image_data["image"],
+                aadhar_card=validated_data["aadhaar"],
+                pan_card=validated_data["pan_card"],
+                address=validated_data["address"],
+            )
         except (ValidationError, IntegrityError) as error:
-            messages.error(str(error))
+            messages.error(request, str(error))
             return render(request, "registration.html")
         messages.info(request, f"Congratulations {user.full_name}, You are registered.")
-        return render(request, "home.html")
+        return render(request, "index.html")
 
     def update(self, request, *args, **kwargs):
         data = request.data
