@@ -44,4 +44,4 @@ class ListRunningAuctionsAPI(APIView):
             .prefetch_related("propertygallery_set", "propertydocument_set")
         )
         serializer = self.OutputSerializer(properties, many=True)
-        return render(request, "property.html", serializer.data)
+        return render(request, "property.html", {"auctions": serializer.data})
