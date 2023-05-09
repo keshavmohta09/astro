@@ -121,7 +121,9 @@ class UserAPI(ViewSet):
 
 
 from django.contrib import messages
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate
+from django.contrib.auth import login as auth_login
+from django.contrib.auth import logout as auth_logout
 from django.shortcuts import redirect, render
 
 
@@ -149,15 +151,12 @@ class UserAuthenticationAPI(ViewSet):
         password = validated_data["password"]
         user = authenticate(request, email=email, password=password)
         if user is not None:
-            token, created = Token.objects.get_or_create(user=user)
-            login(request, user)
-            return render(request, "index.html", {"token": token.key})
+            auth_login(request, user)
+            return render(request, "index.html")
         messages.error(request, "Invalid email or password")
         return render(request, "login.html")
 
     @permission_classes(IsAuthenticated)
     def logout(self, request, *args, **kwargs):
-        token = Token.objects.get(user=request.user)
-        token.delete()
-
-        return Response(status=204)
+        auth_logout(request)
+        return render(request, "index.html")
