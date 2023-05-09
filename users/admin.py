@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.contrib.admin import ModelAdmin
 
-from users.models import Profile, User
+from users.models import Profile, User, UserQuery
 
 
 @admin.register(User)
@@ -16,3 +16,9 @@ class ProfileAdmin(ModelAdmin):
     list_display = ("id", "user", "pan_card", "aadhar_card")
     list_filter = ("user__is_seller", "user__is_buyer")
     search_fields = ("user__email", "aadhar_card", "pan_card", "address")
+
+
+@admin.register(UserQuery)
+class UserQueryAdmin(ModelAdmin):
+    list_display = ("id", "first_name", "last_name", "email")
+    search_fields = ("email", "first_name", "last_name")

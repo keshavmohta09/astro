@@ -1,11 +1,29 @@
+from django.contrib import messages
+from django.shortcuts import render
 from django.urls import path
-from rest_framework.authtoken import views as auth_views
 
 from users import views
+from users.models import UserQuery
+
+
+def create_query(request):
+    data = request.POST
+    u = UserQuery(
+        first_name=data["first_name"],
+        last_name=data["last_name"],
+        email=data["email"],
+        query=data["message"],
+    )
+    try:
+        u.save()
+    except Exception as error:
+        messages.error(str(error))
+        return render(request, "contact.html")
+    return render(request, "index.html")
+
 
 urlpatterns = [
     path("create/", views.UserAPI().create, name="user-create"),
-    # path("update/", views.UserAPI.as_view({"put": "update"}), name="user-update"),
     path(
         "login/",
         views.UserAuthenticationAPI().login,
@@ -15,5 +33,10 @@ urlpatterns = [
         "logout/",
         views.UserAuthenticationAPI.as_view({"delete": "logout"}),
         name="user-logout",
+    ),
+    path(
+        "query/",
+        create_query,
+        name="user-query",
     ),
 ]

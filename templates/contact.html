@@ -91,14 +91,16 @@
 
 
 
-            <form class="contact__form">
+            <form class="contact__form" method="POST" action="{% url 'user-query' %}">
+                {% csrf_token %}
+
                 <div class="form__name">
-                    <input type="text" name="First Name" placeholder="First Name" required>
-                    <input type="text" name="Last Name" placeholder="Last Name" required>
+                    <input type="text" name="first_name" placeholder="First Name" required>
+                    <input type="text" name="last_name" placeholder="Last Name" required>
                 </div>
-                <input type="email" name="Email Address" placeholder="Your Email Address" required>
-                <textarea name="Message" rows="7" placeholder="Message" required></textarea>
-                <button type="sumbit" class="btn btn-primary">Send Message</button>
+                <input type="email" name="email" placeholder="Your Email Address" required>
+                <textarea name="message" rows="7" placeholder="Enter you query here..." required></textarea>
+                <button type="submit" class="btn btn-primary">Send Message</button>
             </form>
         </div>
     </section>
@@ -207,7 +209,136 @@
     </script>
 
 
+    <script>
+        function validation() {
+            var name = document.getElementById("name").value;
+            var email = document.getElementById("email").value;
+            var mobile = document.getElementById("mobile").value;
 
+            if (name == "") {
+                document.getElementById('u_name').innerHTML = "* First Name can't be blank";
+                return false;
+            }
+
+            if (name.length < 5) {
+                document.getElementById('u_name').innerHTML = "* First Name Length should be greater than 5";
+                return false;
+            }
+
+            if (!isNaN(name)) {
+                document.getElementById('u_name').innerHTML = "* First Name should be character only";
+                return false;
+            }
+            //Last Name
+            if (lname == "") {
+                document.getElementById('l_name').innerHTML = "* Last Name can't be blank";
+                return false;
+            }
+            if (!isNaN(lname)) {
+                document.getElementById('l_name').innerHTML = "* Last Name should be character only";
+                return false;
+            }
+
+
+            // Email Validation
+            if (email.indexOf('@') <= 0) {
+                document.getElementById("u_email").innerHTML = "* Email must contain @";
+                return false;
+            }
+            if ((email.charAt(email.length - 4) != '.') && (email.charAt(email.length - 3) != '.')) {
+                document.getElementById("u_email").innerHTML = "* Email must contain .";
+                return false;
+            }
+
+            //Password
+            if (password == "") {
+                document.getElementById("u_password").innerHTML = "* Password can't be blank";
+                return false;
+            }
+            if (password.length <= 6) {
+                document.getElementById("u_password").innerHTML = "* Weak Password make it Strong"
+                return false;
+            }
+
+            //Confirm Password
+            if (conpassword == "") {
+                document.getElementById("c_password").innerHTML = "* Password can't be blank";
+                return false;
+            }
+            if (conpassword.length <= 6) {
+                document.getElementById("c_password").innerHTML = "* Weak Password make it Strong"
+                return false;
+            }
+            if (conpassword != password) {
+                document.getElementById("c_password").innerHTML = "* Password does not match"
+                return false;
+            }
+        }
+    </script>
+
+    <!-- Add the pop-up message box -->
+    <div class="error-popup">
+        <div class="error-message" id="error-message"></div>
+        <button class="close-btn" id="close-btn">Close</button>
+    </div>
+
+    <!-- Add the CSS styles for the pop-up -->
+    <style>
+        /* Style the pop-up */
+        .error-popup {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+        }
+
+        /* Style the error message */
+        .error-message {
+            background-color: rgb(240, 237, 237);
+            color: #f44336;
+            margin: 15% auto;
+            padding: 20px;
+            border-radius: 5px;
+            width: 50%;
+            text-align: center;
+        }
+
+        /* Style the close button */
+        .close-btn {
+            padding: 10px;
+            background-color: #f44336;
+            color: white;
+            border: none;
+            margin-top: 10px;
+            border-radius: 10px;
+        }
+    </style>
+
+    <!-- Add the JavaScript code to display the pop-up -->
+    <script>
+        // Get the pop-up elements
+        const errorPopup = document.querySelector(".error-popup");
+        const errorMessage = document.getElementById("error-message");
+        const closeBtn = document.getElementById("close-btn");
+
+        // Add an event listener to the close button to hide the pop-up
+        closeBtn.addEventListener("click", () => {
+            errorPopup.style.display = "none";
+        });
+
+        // Get the error message from Django messages and display it in the pop-up
+        const error = "{% if messages %}{% for message in messages %}{{ message }}{% endfor %}{% endif %}";
+        if (error !== "") {
+            errorMessage.innerHTML = error;
+            errorPopup.style.display = "block";
+        }
+    </script>
+
+    <script src="{% static 'js/main.js' %}"></script>
 
 
 </body>

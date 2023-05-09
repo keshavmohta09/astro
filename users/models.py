@@ -84,3 +84,9 @@ class Profile(models.Model):
     class Meta:
         verbose_name = "Profile"
         verbose_name_plural = "Profiles"
+
+class UserQuery(models.Model):
+    first_name = models.CharField(max_length=256)
+    last_name = models.CharField(max_length=256)
+    email=models.EmailField()
+    query = models.TextField()
