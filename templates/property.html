@@ -75,26 +75,12 @@
                     <p>
                         Location: {{auction.location}}
                     </p>
-                    <p>Seller: {{auction.seller.full_name}}</p>
+                    <p>Owner: {{auction.seller.full_name}}</p>
                     <p>Original Ask: {{auction.base_price}} INR</p>
                     {% if auction.maximum_bid %}
                     <p>Highest Bid Yet: {{auction.maximum_bid}} INR</p>
                     {% endif %}
                 </div>
-
-
-                <!-- <div class="gallery_images">
-                    <button onclick="openModal()"><i class="uil uil-image"></i>Gallery</button>
-                    <div id="myModal1" class="modal">
-                        <span class="close" onclick="closeModal()">&times;</span>
-                        <div class="modal-content">
-                            {% for image in auction.gallery %}
-                            <img src="{{ image.file }}" alt="Image {{ forloop.counter }}" />
-                            {% endfor %}
-                        </div>
-                    </div>
-
-                </div> -->
 
                 <div class="gallery_images">
                     {% for image in auction.gallery %}
@@ -162,16 +148,15 @@
             </div>
 
             <div class="footer__3">
-                <h4>Primacy</h4>
+                <h4>Privacy</h4>
                 <ul class="privacy">
                     <li><a href="#">Privacy Policy</a></li>
                     <li><a href="#">Terms and conditions</a></li>
-                    <li><a href="#">Refund Policy</a></li>
                 </ul>
             </div>
 
             <div class="footer__4">
-                <h4>Contact Us</h4>
+                <h4>Contact us</h4>
                 <div>
                     <p>+91 0000000000</p>
                     <p>care@bidder.com</p>
