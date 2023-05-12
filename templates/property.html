@@ -1,0 +1,274 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bidder - All Properties</title>
+
+    <!--ICONSCOUT CDN-->
+    <link rel="stylesheet" href="https://unicons.iconscout.com/release/v2.1.6/css/unicons.css">
+
+
+    <!--GOOGLE FONTS (MONTSERRAT)-->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wgt@300:400:500:600:700:800:900&display=swap"
+        rel="stylesheet">
+
+
+    <!--SWIPER JS-->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css" />
+
+
+
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'css/property.css' %}">
+</head>
+
+<body>
+    <nav>
+        <div class="container nav__container">
+            <a href="/">
+                {% if user.is_authenticated %}
+                <h4>Welcome to Bidder, {{ user.full_name }}!</h4>
+                {% else %}
+                <h4>Welcome to Bidder!</h4>
+                {% endif %}
+            </a>
+            <ul class="nav__menu">
+                <li><a href="/">Home</a></li>
+                {% if not user.is_authenticated %}
+                <li><a href="{% url 'user-login' %}">Login</a></li>
+                <li><a href="{% url 'user-create' %}">Registration</a></li>
+                {% else %}
+                <li><a href="{% url 'user-logout' %}">Logout</a></li>
+                {% endif %}
+                <li><a href="{% url 'about' %}">About</a></li>
+                <li><a href="{% url 'list-running-auctions' %}">Property</a></li>
+                <li><a href="{% url 'contact' %}">Contact</a></li>
+            </ul>
+            <button id="open-menu-btn"><i class="uil uil-bars"></i></button>
+            <button id="close-menu-btn"><i class="uil uil-multiply"></i></button>
+
+        </div>
+    </nav>
+    </nav>
+    <!--==================================END OF NAVBAR===========================================-->
+
+
+
+
+    <section class="properties">
+        <h2>Properties for Auction</h2>
+        <div class="properties__container">
+            {% for auction in auctions %}
+            <article class="property">
+                <div class="property__image">
+                    <img src="{{ auction.thumbnail }}" />
+                </div>
+                <div class=" property__info">
+                    <h3>{{auction.name}}</h3>
+                    <p>
+                        Location: {{auction.location}}
+                    </p>
+                    <p>Seller: {{auction.seller.full_name}}</p>
+                    <p>Original Ask: {{auction.base_price}} INR</p>
+                    {% if auction.maximum_bid %}
+                    <p>Highest Bid Yet: {{auction.maximum_bid}} INR</p>
+                    {% endif %}
+                </div>
+
+
+                <!-- <div class="gallery_images">
+                    <button onclick="openModal()"><i class="uil uil-image"></i>Gallery</button>
+                    <div id="myModal1" class="modal">
+                        <span class="close" onclick="closeModal()">&times;</span>
+                        <div class="modal-content">
+                            {% for image in auction.gallery %}
+                            <img src="{{ image.file }}" alt="Image {{ forloop.counter }}" />
+                            {% endfor %}
+                        </div>
+                    </div>
+
+                </div> -->
+
+                <div class="gallery_images">
+                    {% for image in auction.gallery %}
+                    <a href="{{image.file}}" target="_blank"><i class="uil uil-file-search-alt"></i>Image
+                        {{forloop.counter}}</a>
+                    {% endfor %}
+                </div>
+
+                <div class="gallery_document">
+                    {% for document in auction.documents %}
+                    <a href="{{document.document}}" target="_blank"><i class="uil uil-file-search-alt"></i>Document
+                        {{forloop.counter}}</a>
+                    {% endfor %}
+                </div>
+
+                <form method="POST" action="{% url 'create-bid' %}"
+                    style="display: flex; flex-direction: column; align-items: center;">
+                    {% csrf_token %}
+                    <input type="hidden" id="property_hidden_input" name="property" value="{{auction.id}}"
+                        style="margin-bottom: 10px;">
+                    <input type="number" id="bid_amount" name="amount" placeholder="100000 INR"
+                        style="padding: 10px; font-size: 16px; border-radius: 5px; border: 1px solid #ccc; margin-bottom: 10px;">
+                    <input type="submit" value="Place bid" style="background-color: #4CAF50; color: white; padding: 10px 16px; font-size: 16px; border-radius: 5px; border: none; cursor: pointer;
+           transition: background-color 0.5s;"
+                        onmouseover="this.style.backgroundColor='#4230a9'; this.style.color='#fff';"
+                        onmouseout="this.style.backgroundColor='#4CAF50'; this.style.color='#fff';">
+                </form>
+
+            </article>
+            {% endfor %}
+        </div>
+    </section>
+
+
+    <!-- ======================End of Property=====================-->
+
+
+    <!--=============================FOOTER===========================-->
+
+    <footer>
+        <div class="container footer__container">
+            <div class="footer__1">
+                <a href="{% url 'home' %}" class="footer__logo">
+                    <h4>Bidder</h4>
+                </a>
+                <p>
+                    ONLINE AUCTION MANAGEMENT SYSTEM
+                </p>
+            </div>
+
+            <div class="footer__2">
+                <h4>Permalinks</h4>
+                <ul class="permalinks">
+                    <li><a href="{% url 'home' %}">Home</a></li>
+                    {% if not user.is_authenticated %}
+                    <li><a href="{% url 'user-login' %}">Login</a></li>
+                    <li><a href="{% url 'user-create' %}">Registration</a></li>
+                    {% else %}
+                    <li><a href="{% url 'user-logout' %}">Logout</a></li>
+                    {% endif %}
+                    <li><a href="{% url 'about' %}">About</a></li>
+                    <li><a href="{% url 'list-running-auctions' %}">Property</a></li>
+                    <li><a href="{% url 'contact' %}">Contact</a></li>
+                </ul>
+            </div>
+
+            <div class="footer__3">
+                <h4>Primacy</h4>
+                <ul class="privacy">
+                    <li><a href="#">Privacy Policy</a></li>
+                    <li><a href="#">Terms and conditions</a></li>
+                    <li><a href="#">Refund Policy</a></li>
+                </ul>
+            </div>
+
+            <div class="footer__4">
+                <h4>Contact Us</h4>
+                <div>
+                    <p>+91 0000000000</p>
+                    <p>care@bidder.com</p>
+                </div>
+
+
+
+
+                <ul class="footer__socials ">
+                    <li>
+                        <a href="#"><i class="uil uil-facebook-f"></i></a>
+                    </li>
+                    <li>
+                        <a href="#"><i class="uil uil-instagram-alt"></i></a>
+                    </li>
+                    <li>
+                        <a href="#"><i class="uil uil-twitter"></i></a>
+                    </li>
+                    <li>
+                        <a href="#"><i class="uil uil-linkedin-alt"></i></a>
+                    </li>
+                </ul>
+            </div>
+
+
+        </div>
+
+        <div class="footer__copyright">
+            <small>Copyright &copy; Bidder</small>
+        </div>
+    </footer>
+
+    <!-- Add the pop-up message box -->
+    <div class="error-popup">
+        <div class="error-message" id="error-message"></div>
+        <button class="close-btn" id="close-btn">Close</button>
+    </div>
+
+    <!-- Add the CSS styles for the pop-up -->
+    <style>
+        /* Style the pop-up */
+        .error-popup {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+        }
+
+        /* Style the error message */
+        .error-message {
+            background-color: rgb(240, 237, 237);
+            color: #f44336;
+            margin: 15% auto;
+            padding: 20px;
+            border-radius: 5px;
+            width: 50%;
+            text-align: center;
+        }
+
+        /* Style the close button */
+        .close-btn {
+            padding: 10px;
+            background-color: #f44336;
+            color: white;
+            border: none;
+            margin-top: 10px;
+            border-radius: 10px;
+        }
+    </style>
+
+    <!-- Add the JavaScript code to display the pop-up -->
+    <script>
+        // Get the pop-up elements
+        const errorPopup = document.querySelector(".error-popup");
+        const errorMessage = document.getElementById("error-message");
+        const closeBtn = document.getElementById("close-btn");
+
+        // Add an event listener to the close button to hide the pop-up
+        closeBtn.addEventListener("click", () => {
+            errorPopup.style.display = "none";
+        });
+
+        // Get the error message from Django messages and display it in the pop-up
+        const error = "{% if messages %}{% for message in messages %}{{ message }}{% endfor %}{% endif %}";
+        if (error !== "") {
+            errorMessage.innerHTML = error;
+            errorPopup.style.display = "block";
+        }
+    </script>
+
+
+    <script src="{% static 'js/main.js' %}"></script>
+
+</body>
+
+</html>

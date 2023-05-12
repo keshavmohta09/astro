@@ -1,8 +1,10 @@
 from django.shortcuts import render
 from django.utils.timezone import now
+from rest_framework import serializers
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
+from bids.models import Auction
 from properties.models import Property
 from properties.serializers import (
     PropertyDocumentSerializer,
@@ -17,15 +19,26 @@ class ListRunningAuctionsAPI(APIView):
         seller = UserSerializer()
         gallery = PropertyGallerySerializer(source="propertygallery_set", many=True)
         documents = PropertyDocumentSerializer(source="propertydocument_set", many=True)
+        maximum_bid = serializers.SerializerMethodField()
+
+        def get_maximum_bid(self, instance):
+            max_price = (
+                Auction.objects.filter(is_active=True, property_id=instance.id)
+                .order_by("-amount")
+                .first()
+            )
+            return max_price and max_price.amount or max_price
 
         class Meta:
             model = Property
             fields = (
                 "id",
                 "name",
+                "thumbnail",
                 "seller",
                 "location",
                 "base_price",
+                "maximum_bid",
                 "start_date",
                 "closing_date",
                 "gallery",

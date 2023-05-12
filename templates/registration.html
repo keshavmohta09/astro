@@ -32,15 +32,15 @@
 <body>
     <nav>
         <div class="container nav__container">
-            <a href="index.html">
-                <h4>Bidder</h4>
+            <a href="/">
+                <h4>Welcome to Bidder!</h4>
             </a>
             <ul class="nav__menu">
                 <li><a href="/">Home</a></li>
                 <li><a href="{% url 'user-login' %}">Login</a></li>
                 <li><a href="{% url 'user-create' %}">Registration</a></li>
                 <li><a href="{% url 'about' %}">About</a></li>
-                <li><a href="property.html">Property</a></li>
+                <li><a href="{% url 'list-running-auctions' %}">Property</a></li>
                 <li><a href="{% url 'contact' %}">Contact</a></li>
             </ul>
             <button id="open-menu-btn"><i class="uil uil-bars"></i></button>

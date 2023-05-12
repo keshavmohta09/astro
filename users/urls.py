@@ -24,19 +24,7 @@ def create_query(request):
 
 urlpatterns = [
     path("create/", views.UserAPI().create, name="user-create"),
-    path(
-        "login/",
-        views.UserAuthenticationAPI().login,
-        name="user-login",
-    ),
-    path(
-        "logout/",
-        views.UserAuthenticationAPI.as_view({"delete": "logout"}),
-        name="user-logout",
-    ),
-    path(
-        "query/",
-        create_query,
-        name="user-query",
-    ),
+    path("login/", views.UserAuthenticationAPI().login, name="user-login"),
+    path("logout/", views.UserAuthenticationAPI().logout, name="user-logout"),
+    path("query/", create_query, name="user-query"),
 ]

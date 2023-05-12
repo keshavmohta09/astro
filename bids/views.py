@@ -1,6 +1,7 @@
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 from django.core.exceptions import ValidationError
-from django.shortcuts import render
+from django.shortcuts import redirect, render
 
 # Create your views here.
 from django.utils.timezone import now
@@ -22,9 +23,12 @@ class CreateBidAPI(APIView):
         amount = serializers.IntegerField()
 
     def create(self, request):
-        serializer = self.InputSerializer(data=request.data)
+        if not request.user.is_authenticated:
+            return redirect("user-login")
+        serializer = self.InputSerializer(data=request.POST)
         if not serializer.is_valid():
-            return Response(data=serializer.errors, status=400)
+            messages.error(request, f"{serializer.errors}")
+            return redirect("list-running-auctions")
         validated_data = serializer.validated_data
         current_time = now()
         try:
@@ -35,16 +39,17 @@ class CreateBidAPI(APIView):
                 closing_date__gte=current_time,
             )
         except Property.DoesNotExist:
-            return Response(data="Property not found", status=404)
+            messages.error(request, "Property not found")
+            return redirect("list-running-auctions")
 
         max_bid = (
             property.auction_set.filter(is_active=True).order_by("-amount").first()
         )
         if max_bid and validated_data["amount"] <= max_bid.amount:
             messages.error(
-                f"Maximum bid is {max_bid.amount}, enter the greater amount..."
+                request, f"Maximum bid is {max_bid.amount}, enter the greater amount..."
             )
-            return render(request, "property.html")
+            return redirect("list-running-auctions")
 
         bid = Auction(
             property=property, buyer=request.user, amount=validated_data["amount"]
@@ -52,7 +57,7 @@ class CreateBidAPI(APIView):
         try:
             bid.save()
         except ValidationError as error:
-            messages.error(str(error))
-            return render(request, "property.html")
+            messages.error(request, str(error))
+            return redirect("list-running-auctions")
 
-        return render(request, "property.html")
+        return redirect("list-running-auctions")

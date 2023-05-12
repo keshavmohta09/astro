@@ -6,6 +6,6 @@ urlpatterns = [
     path(
         "running-auctions/",
         ListRunningAuctionsAPI().get,
-        name="list_running_auctions",
+        name="list-running-auctions",
     ),
 ]

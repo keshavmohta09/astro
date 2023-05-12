@@ -13,6 +13,10 @@ class Property(models.Model):
     Model to store properties information to be auctioned.
     """
 
+    MAX_FILE_ALLOWED = 5
+    MAX_FILE_SIZE_ALLOWED = 5  # MB
+    EXTENSIONS_ALLOWED = ("jpeg", "png", "jpg")
+
     name = models.CharField(max_length=256)
     seller = models.ForeignKey(User, on_delete=models.PROTECT)
     location = models.TextField()
@@ -22,6 +26,12 @@ class Property(models.Model):
     start_date = models.DateTimeField()
     closing_date = models.DateTimeField()
     is_active = models.BooleanField(default=False)
+    thumbnail = models.FileField(
+        validators=[
+            ValidateFileSize(max_file_size=MAX_FILE_SIZE_ALLOWED),
+            FileExtensionValidator(allowed_extensions=EXTENSIONS_ALLOWED),
+        ],
+    )
 
     class Meta:
         verbose_name = "Property"
@@ -41,7 +51,6 @@ class Property(models.Model):
         self.validate_dates()
 
     def full_clean(self, exclude=None, validate_unique=True) -> None:
-        breakpoint()
         if self.pk and self.is_active:
             initial_instance = Property.objects.get(id=self.pk)
             if not initial_instance.is_active:
@@ -52,7 +61,9 @@ class Property(models.Model):
     def save(self, *args, **kwargs):
         skip_clean = kwargs.pop("skip_clean", False)
         if not skip_clean:
-            self.full_clean(exclude=kwargs.pop("exclude_clean", None))
+            self.full_clean(
+                exclude=kwargs.pop("exclude_clean", None), validate_unique=True
+            )
         return super().save(*args, **kwargs)
 
 
@@ -94,7 +105,9 @@ class PropertyGallery(models.Model):
     def save(self, *args, **kwargs):
         skip_clean = kwargs.pop("skip_clean", False)
         if not skip_clean:
-            self.full_clean(exclude=kwargs.pop("exclude_clean", None))
+            self.full_clean(
+                exclude=kwargs.pop("exclude_clean", None), validate_unique=True
+            )
         return super().save(*args, **kwargs)
 
 
@@ -105,7 +118,7 @@ class PropertyDocument(models.Model):
 
     MAX_DOCUMENT_ALLOWED = 5
     MAX_FILE_SIZE_ALLOWED = 5  # MB
-    EXTENSIONS_ALLOWED = ("pdf", "jpeg", "png", "jpg")
+    EXTENSIONS_ALLOWED = ("pdf", "docx", "doc")
 
     property = models.ForeignKey(Property, on_delete=models.CASCADE)
     document = models.FileField(
@@ -114,7 +127,7 @@ class PropertyDocument(models.Model):
             FileExtensionValidator(allowed_extensions=EXTENSIONS_ALLOWED),
         ],
     )
-    description = models.TextField()
+    description = models.TextField(null=True, blank=True)
 
     class Meta:
         verbose_name = "Property Document"
@@ -137,5 +150,7 @@ class PropertyDocument(models.Model):
     def save(self, *args, **kwargs):
         skip_clean = kwargs.pop("skip_clean", False)
         if not skip_clean:
-            self.full_clean(exclude=kwargs.pop("exclude_clean", None))
+            self.full_clean(
+                exclude=kwargs.pop("exclude_clean", None), validate_unique=True
+            )
         return super().save(*args, **kwargs)

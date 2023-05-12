@@ -27,12 +27,16 @@ class Auction(models.Model):
             )
 
     def validate_amount(self):
-        if self.amount <= (
+        max_bid = (
             Auction.objects.filter(property=self.property, is_active=True)
             .order_by("-amount")
             .first()
-            or 0
-        ):
+        )
+        if max_bid:
+            max_bid = max_bid.amount
+        else:
+            max_bid = 0
+        if self.amount <= max_bid:
             raise ValidationError("Bidding amount must be greater than highest amount.")
 
     def full_clean(self, exclude, validate_unique):
@@ -43,5 +47,7 @@ class Auction(models.Model):
     def save(self, *args, **kwargs):
         skip_clean = kwargs.pop("skip_clean", False)
         if not skip_clean:
-            self.full_clean(exclude=kwargs.pop("exclude_clean", None))
+            self.full_clean(
+                exclude=kwargs.pop("exclude_clean", None), validate_unique=True
+            )
         return super().save(*args, **kwargs)
