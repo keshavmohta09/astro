@@ -1,0 +1,220 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bidder - About</title>
+
+    <!--ICONSCOUT CDN-->
+    <link rel="stylesheet" href="https://unicons.iconscout.com/release/v2.1.6/css/unicons.css">
+
+
+    <!--GOOGLE FONTS (MONTSERRAT)-->
+    <link rel="preconnect" href="<br><br>https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wgt@300:400:500:600:700:800:900&display=swap"
+        rel="stylesheet">
+
+
+    <!--SWIPER JS-->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css" />
+
+
+
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+
+</head>
+
+<body>
+    <nav>
+        <div class="container nav__container">
+            <a href="/">
+                {% if user.is_authenticated %}
+                <h4>Welcome to Bidder, {{ user.full_name }}!</h4>
+                {% else %}
+                <h4>Welcome to Bidder!</h4>
+                {% endif %}
+            </a>
+            <ul class="nav__menu">
+                <li><a href="/">Home</a></li>
+                {% if not user.is_authenticated %}
+                <li><a href="{% url 'user-login' %}">Login</a></li>
+                <li><a href="{% url 'user-create' %}">Registration</a></li>
+                {% else %}
+                <li><a href="{% url 'user-logout' %}">Logout</a></li>
+                {% endif %}
+                <li><a href="{% url 'about' %}">About</a></li>
+                <li><a href="{% url 'list-running-auctions' %}">Property</a></li>
+                <li><a href="{% url 'contact' %}">Contact</a></li>
+            </ul>
+            <button id="open-menu-btn"><i class="uil uil-bars"></i></button>
+            <button id="close-menu-btn"><i class="uil uil-multiply"></i></button>
+
+        </div>
+    </nav>
+    <!--==============================END OF NAV BAR=================================-->
+
+
+    <style>
+        .centered-text {
+            width: 70%;
+            margin: 0 auto;
+            text-align: left;
+        }
+    </style>
+    <section class="centered-text">
+        <h3>Effective Date: 23-05-2023</h3>
+
+        Introduction:
+
+        This Privacy Policy outlines how we collect, use, disclose, and protect personal information within our Online
+        Auction Management System ("System"). We are committed to maintaining the privacy and security of the
+        information you provide to us. By using our System, you consent to the practices described in this policy.
+        <br><br>
+        Information Collection:
+        1.1. Personal Information: We may collect personal information such as your name, contact information (including
+        email address, phone number), and payment details when you register for an account on our System or participate
+        in auctions.
+        <br><br>
+        1.2. User-generated Content: We may collect information you provide through messages, comments, or other forms
+        of user-generated content within the System.
+        <br><br>
+        1.3. Usage Data: We may collect information about your interactions with the System, including your IP address,
+        browser type, operating system, device information, and the pages you visit.
+        <br><br>
+        1.4. Cookies and Similar Technologies: We may use cookies and similar technologies to collect information about
+        your usage of the System. This information helps us improve your experience and customize the content and
+        advertisements displayed to you.
+        <br><br>
+        Use of Information:
+        2.1. Provide Services: We use the collected information to provide and maintain the functionality of the System,
+        process auction transactions, and communicate with you regarding your account and auctions.
+        <br><br>
+        2.2. Personalization: We may use your information to personalize your experience, recommend auctions, and
+        display targeted advertisements.
+        <br><br>
+        2.3. Analytics and Improvement: We analyze the information to understand usage patterns, improve our System, and
+        enhance user satisfaction.
+        <br><br>
+        2.4. Communication: We may send you administrative messages, notifications, and promotional emails about
+        auctions, new features, or updates.
+        <br><br>
+        Information Sharing:
+        3.1. Service Providers: We may engage trusted third-party service providers to assist us in delivering our
+        services. These providers have limited access to your personal information and are bound by confidentiality
+        obligations.
+        <br><br>
+        3.2. Legal Requirements: We may disclose your information if required by law, legal process, or governmental
+        request, or to protect our rights, privacy, safety, or property.
+        <br><br>
+        3.3. Aggregated or Anonymized Data: We may aggregate and anonymize information for statistical or research
+        purposes. Such data will not identify you personally.
+        <br><br>
+        Data Security:
+        We implement reasonable security measures to protect your personal information from unauthorized access,
+        disclosure, alteration, or destruction. However, no method of transmission or storage is 100% secure, and we
+        cannot guarantee absolute security.
+        <br><br>
+        Data Retention:
+        We retain your personal information for as long as necessary to fulfill the purposes outlined in this Privacy
+        Policy, unless a longer retention period is required or permitted by law.
+        <br><br>
+        Third-Party Links:
+        Our System may contain links to third-party websites or services. We are not responsible for their privacy
+        practices, and we encourage you to review the privacy policies of those third parties.
+        <br><br>
+        Children's Privacy:
+        Our System is not intended for children under the age of 13. We do not knowingly collect personal information
+        from children. If you believe we have inadvertently collected information from a child, please contact us, and
+        we will promptly delete it.
+        <br><br>
+        Changes to this Privacy Policy:
+        We may update this Privacy Policy from time to time. The revised policy will be posted on this page with an
+        updated "Effective Date." We encourage you to review this policy periodically.
+        <br><br>
+        Contact Us:
+        If you have any questions, concerns, or requests regarding this Privacy Policy or our privacy practices, please
+        contact us at care@astro.com.
+    </section>
+
+
+    <!--=============================FOOTER===========================-->
+
+    <footer>
+        <div class="container footer__container">
+            <div class="footer__1">
+                <a href="{% url 'home' %}" class="footer__logo">
+                    <h4>Bidder</h4>
+                </a>
+                <p>
+                    ONLINE AUCTION MANAGEMENT SYSTEM
+                </p>
+            </div>
+
+            <div class="footer__2">
+                <h4>Permalinks</h4>
+                <ul class="permalinks">
+                    <li><a href="{% url 'home' %}">Home</a></li>
+                    {% if not user.is_authenticated %}
+                    <li><a href="{% url 'user-login' %}">Login</a></li>
+                    <li><a href="{% url 'user-create' %}">Registration</a></li>
+                    {% else %}
+                    <li><a href="{% url 'user-logout' %}">Logout</a></li>
+                    {% endif %}
+                    <li><a href="{% url 'about' %}">About</a></li>
+                    <li><a href="{% url 'list-running-auctions' %}">Property</a></li>
+                    <li><a href="{% url 'contact' %}">Contact</a></li>
+                </ul>
+            </div>
+
+            <div class="footer__3">
+                <h4>Privacy</h4>
+                <ul class="privacy">
+                    <li><a href="{% url 'privacy' %}">Privacy Policy</a></li>
+                    <li><a href="{% url 'terms' %}">Terms and conditions</a></li>
+                </ul>
+            </div>
+
+            <div class="footer__4">
+                <h4>Contact us</h4>
+                <div>
+                    <p>+91 0000000000</p>
+                    <p>care@bidder.com</p>
+                </div>
+
+
+
+
+                <ul class="footer__socials ">
+                    <li>
+                        <a href="#"><i class="uil uil-facebook-f"></i></a>
+                    </li>
+                    <li>
+                        <a href="#"><i class="uil uil-instagram-alt"></i></a>
+                    </li>
+                    <li>
+                        <a href="#"><i class="uil uil-twitter"></i></a>
+                    </li>
+                    <li>
+                        <a href="#"><i class="uil uil-linkedin-alt"></i></a>
+                    </li>
+                </ul>
+            </div>
+
+
+        </div>
+
+        <div class="footer__copyright">
+            <small>Copyright &copy; Bidder</small>
+        </div>
+    </footer>
+
+
+    <script src="{% static 'js/main.js' %}"></script>
+
+</body>
+
+</html>

@@ -25,7 +25,6 @@
 
 
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
-    <link rel="stylesheet" href="{% static 'css/about.css' %}">
 
 </head>
 
@@ -58,111 +57,74 @@
     </nav>
     <!--==============================END OF NAV BAR=================================-->
 
+    <style>
+        .centered-text {
+            width: 70%;
+            margin: 0 auto;
+            text-align: left;
+        }
+    </style>
 
-
-
-
-    <section class="about__achievements">
-        <div class="container about__achievements-container">
-            <div class="about__achievements-left">
-                <img src="{% static 'about achievements.svg' %}">
-            </div>
-
-
-            <div class="about__achievements-right">
-                <h1>Achievements</h1>
-                <p>
-                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Doloribus provident tempore deserunt
-                    voluptatem perferendis error sed et, aspernatur alias libero minima placeat? Necessitatibus deleniti
-                    asperiores vel inventore provident reiciendis delectus.
-                </p>
-
-                <div class="achievements__cards">
-                    <article class="achievement__card">
-                        <span class="achievement__icon">
-                            <i class="uil uil-video"></i>
-                        </span>
-                        <h3>45</h3>
-                        <p>Property view</p>
-                    </article>
-
-                    <article class="achievement__card">
-                        <span class="achievement__icon">
-                            <i class="uil uil-users-alt"></i>
-                        </span>
-                        <h3>790+</h3>
-                        <p>People</p>
-                    </article>
-
-
-                    <article class="achievement__card">
-                        <span class="achievement__icon">
-                            <i class="uil uil-trophy"></i>
-                        </span>
-                        <h3>2</h3>
-                        <p>Awards</p>
-                    </article>
-                </div>
-            </div>
-        </div>
+    <section class="centered-text">
+        Please read these Terms and Conditions carefully before using our Online Auction Management System ("System").
+        These Terms and Conditions govern your use of the System and constitute a legally binding agreement between you
+        ("User," "You") and Bidder ("Company," "We," "Us," "Our"). By accessing or using the System, you agree to be
+        bound by these Terms and Conditions.
+        <br><br>
+        Use of the System:
+        1.1. Eligibility: You must be at least 18 years old and have the legal capacity to enter into a contract to use
+        the System. If you are using the System on behalf of an organization, you represent and warrant that you have
+        the authority to bind the organization to these Terms and Conditions.
+        <br><br>
+        1.2. Account Registration: You may need to register an account to access certain features of the System. The
+        information you provide during registration must be accurate, complete, and up-to-date. You are responsible for
+        maintaining the confidentiality of your account credentials and for all activities that occur under your
+        account.
+        <br><br>
+        1.3. System Access: We grant you a limited, non-exclusive, non-transferable, and revocable license to access and
+        use the System for its intended purpose. You may not use the System for any unlawful or prohibited activities.
+        <br><br>
+        1.4. System Availability: We strive to provide uninterrupted access to the System, but we do not guarantee its
+        availability at all times. We reserve the right to suspend, modify, or discontinue the System or any part
+        thereof without prior notice.
+        <br><br>
+        Auctions and Transactions:
+        2.1. Auction Listings: Users may create auction listings to sell items or services. You acknowledge that we do
+        not guarantee the accuracy, authenticity, quality, or legality of any auction listings. It is your
+        responsibility to verify the details and conditions of the auction before participating.
+        <br><br>
+        2.2. Bidding and Transactions: Users may place bids on auction listings and engage in transactions. By placing a
+        bid or participating in a transaction, you agree to comply with the specific rules and terms set by the auction
+        creator.
+        <br><br>
+        2.3. Prohibited Activities: You must not engage in any fraudulent, deceptive, or harmful activities within the
+        System, including bid manipulation, shill bidding, or circumventing auction rules. We reserve the right to take
+        necessary actions, including the suspension or termination of your account, if we suspect any prohibited
+        activities.
+        <br><br>
+        2.4. Disputes: We are not responsible for disputes that arise between users regarding auction listings or
+        transactions. However, we encourage users to resolve disputes amicably. If necessary, you may contact us to
+        report any issues, and we will endeavor to assist in resolving the matter.
+        <br><br>
+        Intellectual Property:
+        3.1. Ownership: The System and its contents, including but not limited to software, design, text, graphics,
+        logos, and trademarks, are owned by or licensed to us and are protected by intellectual property laws.
+        <br><br>
+        3.2. Limited License: We grant you a limited, non-exclusive, non-transferable license to access and use the
+        System for personal or internal business purposes. You may not reproduce, modify, distribute, or create
+        derivative works based on the System without our prior written consent.
+        <br><br>
+        Privacy:
+        Your privacy is important to us. Please refer to our Privacy Policy <a style="color:aqua;font-style:italic;"
+            href="{% url 'privacy' %}">Privacy</a> to
+        understand how we collect, use, and protect your personal information within the System.
+        <br><br>
+        Limitation of Liability:
+        To the maximum extent permitted by law, we shall not be liable for any direct, indirect, incidental,
+        consequential, or punitive damages arising out of or in connection with your use of the System, including but
+        not limited to loss of data, profits, or business opportunities.
     </section>
 
-
-    <!--=========================================END OF ACHIEVEMENTS=========================-->
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    <section class="team">
-        <h2>Meet Our Team</h2>
-        <div class="container team__container">
-            <article class="team__member">
-                <div class="team__member-image">
-                    <img src="{% static 'my piccc.jpg' %}">
-                </div>
-                <div class="team__member-info">
-                    <h4>Raja Babu</h4>
-                    <p>Software Developer</p>
-                </div>
-                <div class="team__member_socials">
-                    <a href="https://instagram.com" target="_blank"><i class="uil uil-instagram"></i></a>
-                    <a href="https://twitter.com" target="_blank"><i class="uil uil-twitter-alt"></i></a>
-                    <a href="https://linkedin.com" target="_blank"><i class="uil uil-linkedin-alt"></i></a>
-                </div>
-            </article>
-
-
-            <article class="team__member">
-                <div class="team__member-image">
-                    <img src="{% static 'KeshavPic.jpg' %}">
-                </div>
-                <div class="team__member-info">
-                    <h4>Keshav Mohta</h4>
-                    <p>Software Developer</p>
-                </div>
-                <div class="team__member_socials">
-                    <a href="https://instagram.com" target="_blank"><i class="uil uil-instagram"></i></a>
-                    <a href="https://twitter.com" target="_blank"><i class="uil uil-twitter-alt"></i></a>
-                    <a href="https://linkedin.com" target="_blank"><i class="uil uil-linkedin-alt"></i></a>
-                </div>
-            </article>
-
-
-
-        </div>
-    </section>
-
-    <!--=============================END OF TEAM ===========================-->
 
     <!--=============================FOOTER===========================-->
 

@@ -32,10 +32,20 @@ def contact(request):
     return render(request, "contact.html")
 
 
+def privacy(request):
+    return render(request, "privacy.html")
+
+
+def terms(request):
+    return render(request, "terms.html")
+
+
 urlpatterns = [
     path("", home, name="home"),
     path("about/", about, name="about"),
     path("contact/", contact, name="contact"),
+    path("privacy/", privacy, name="privacy"),
+    path("terms/", terms, name="terms"),
     path("admin/", admin.site.urls),
     path("users/", include("users.urls")),
     path("properties/", include("properties.urls")),

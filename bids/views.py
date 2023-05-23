@@ -45,9 +45,14 @@ class CreateBidAPI(APIView):
         max_bid = (
             property.auction_set.filter(is_active=True).order_by("-amount").first()
         )
-        if max_bid and validated_data["amount"] <= max_bid.amount:
+        if max_bid:
+            amount = max_bid.amount
+        else:
+            amount = property.base_price
+
+        if validated_data["amount"] <= amount:
             messages.error(
-                request, f"Maximum bid is {max_bid.amount}, enter the greater amount..."
+                request, f"Maximum bid is {amount}, enter the greater amount..."
             )
             return redirect("list-running-auctions")
 
