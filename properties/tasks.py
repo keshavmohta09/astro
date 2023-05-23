@@ -54,7 +54,8 @@ Congratulations, you win the auction
 Property Details: 
     Name: {property.name}
     Seller: {property.seller.full_name}
-    Ask Price: {property.base_price}
+    Original Ask: {property.base_price}
+    Your Price: {bid.amount}
     Auction Start Date: {property.start_date}
     Auction Closing Date: {property.closing_date}
     Location: {property.location}
@@ -71,7 +72,8 @@ Congratulations, you auction is closed.
 
 Contact the buyer for more information:
     Buyer email: {bid.buyer.email}
-    Amount: {bid.amount}
+    Original Ask: {property.base_price}
+    Auction Price: {bid.amount}
 
 
 Best regards,
@@ -80,19 +82,25 @@ Team Bidder
 
     properties.update(is_active=False)
     for property in properties:
-        bid = Auction.objects.filter(is_active=True).order_by("-amount").first()
+        bid = (
+            Auction.objects.filter(is_active=True, property=property)
+            .order_by("-amount")
+            .first()
+        )
         if bid:
             send_mail(
                 subject=email_subject,
-                message=seller_message.format(bid=bid),
+                message=seller_message.format(bid=bid, property=property),
                 from_email="noreply@bidder.com",
                 auth_user=settings.EMAIL_HOST_USER,
                 auth_password=settings.EMAIL_HOST_PASSWORD,
+                recipient_list=[bid.property.seller.email],
             )
             send_mail(
                 subject=email_subject,
-                message=buyer_message.format(property=property),
+                message=buyer_message.format(property=property, bid=bid),
                 from_email="noreply@bidder.com",
                 auth_user=settings.EMAIL_HOST_USER,
                 auth_password=settings.EMAIL_HOST_PASSWORD,
+                recipient_list=[bid.buyer.email],
             )
