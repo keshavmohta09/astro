@@ -31,3 +31,11 @@ Bidder - Online Auction Management System
 - EMAIL_HOST_PASSWORD=
 - EMAIL_PORT=
 
+
+# To run celery use these two commands in different terminal tabs
+
+### Celery worker
+- celery -A astro worker -l info -P solo
+
+### Celery beat
+- celery -A astro beat -l info
